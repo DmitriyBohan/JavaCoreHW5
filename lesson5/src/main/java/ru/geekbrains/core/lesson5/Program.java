@@ -5,6 +5,8 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -32,6 +34,8 @@ public class Program {
         concatenate("sample01.txt", "sample02.txt", "sample01_out.txt");
 
 
+
+
         long i = 0;
         while ( (i = searchInFile("sample01_out.txt", i, TO_SEARCH)) > 0){
             System.out.printf("Файл содержит искомое слово, смещение:  %d\n", i);
@@ -50,6 +54,7 @@ public class Program {
         for (String s : result){
             System.out.printf("Файл %s содержит искомое слово '%s'\n", s, TO_SEARCH);
         }
+        createBackup(new File("."));
 
     }
 
@@ -161,5 +166,39 @@ public class Program {
         }
         return list;
     }
+
+    /**Домашнее задание
+     * Написать функцию, создающую резервную копию всех файлов в директории во вновь созданную папку ./backup
+     * 1.создам метод createBackup
+     * 2.метод будет создавать директорию Backup , если она не создана
+     * 3.получим список всех файлов в родительской  директории
+     * 4.копирую файлы в созданую папку ./backup*/
+
+    public static void createBackup(File sourceDir) throws IOException {
+        File backupDir = new File(sourceDir,"backup");
+        if (!backupDir.exists()){
+            if(!backupDir.mkdir()){
+                throw new IOException("не удалось создать папку для копирования");
+            }
+        }
+
+        File[] files =sourceDir.listFiles();
+        if(files==null){
+            throw new IOException("Каталог пуст");
+        }
+
+        for (File file: files){
+            File destFile = new File(backupDir, file.getName());
+            /*StandardCopyOption.REPLACE_EXISTING - заменяет файл, если он уже есть */
+            Files.copy(file.toPath(),destFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+            System.out.printf("Файл %s\n успешно скопирован",file.getName());
+
+        }
+    }
+
+
+
+
+
 
 }
