@@ -25,21 +25,28 @@ public class Tree {
         System.out.println(file.getName());
 
         File[] files = file.listFiles();
+        if (files==null) return;
 
-        int subDirTotal = 0;
-        for (int i = 0; i < files.length; i++){
-            if (files[i].isDirectory())
-            {
-                subDirTotal++;
-            }
-        }
-
-        int subDirCounter = 0;
-        for (int i = 0; i < files.length; i++){
-            if (files[i].isDirectory())
-            {
-                print(files[i], indent, subDirTotal == ++subDirCounter);
-            }
+//        int subDirTotal = 0;
+//        for (int i = 0; i < files.length; i++){
+//            if (files[i].isDirectory())
+//            {
+//                subDirTotal++;
+//            }
+//        }
+//
+//        int subDirCounter = 0;
+//        for (int i = 0; i < files.length; i++){
+//            if (files[i].isDirectory())
+//            {
+//                print(files[i], indent, subDirTotal == ++subDirCounter);
+//            }
+//        }
+        /***/
+        int finish =files.length;
+        for (int i = 0; i < finish; i++) {
+            boolean isLastElement = (i==finish-1);
+            print(files[i],indent,isLastElement);
         }
     }
 
